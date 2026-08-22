@@ -1,0 +1,219 @@
+/* ==========================================================================
+   MOONVIEW PLAYER STYLES
+   Isolated purely to body.moonview-player-mode
+   ========================================================================== */
+
+body.moonview-player-mode {
+
+    /* Player Background & Shell */
+    background: #000 !important;
+
+    /* Hide redundant Jellyfin elements */
+    .skinHeader, 
+    .mainDrawer {
+        display: none !important;
+    }
+
+    /* ----------------------------------------------------------------------
+       CONTROL OVERLAY
+       ---------------------------------------------------------------------- */
+    .videoOsdBottom {
+        background: linear-gradient(to top, rgba(7, 10, 18, 0.95) 0%, rgba(7, 10, 18, 0.7) 40%, transparent 100%) !important;
+        padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+        
+        .osdControls {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 4%;
+        }
+    }
+
+    .osdMainTextContainer {
+        text-align: left;
+        margin-bottom: 0.5em;
+
+        .osdTitle {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--moonview-text-primary, #F7F9FC);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
+        }
+    }
+
+    /* ----------------------------------------------------------------------
+       TRANSPORT BUTTONS
+       ---------------------------------------------------------------------- */
+    .buttons.focuscontainer-x {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 0.5em;
+
+        button[is="paper-icon-button-light"] {
+            color: var(--moonview-text-primary, #F7F9FC);
+            transition: transform 0.2s ease, color 0.2s ease;
+            margin: 0 4px;
+            border-radius: 50%;
+            background: transparent !important;
+
+            &:hover, &:focus {
+                color: var(--moonview-primary, #7B61FF) !important;
+                transform: scale(1.1);
+                outline: none;
+            }
+
+            &:active {
+                color: var(--moonview-accent, #4DA3FF) !important;
+                transform: scale(0.95);
+            }
+        }
+
+        /* Enlarge primary play/pause */
+        .btnPause {
+            transform: scale(1.2);
+            margin: 0 12px;
+
+            &:hover, &:focus {
+                transform: scale(1.3);
+            }
+        }
+    }
+
+    /* ----------------------------------------------------------------------
+       SEEK BAR
+       ---------------------------------------------------------------------- */
+    .sliderContainer {
+        margin: 1em 0 0.5em;
+
+        /* Override the injected background progress elements */
+        .mdl-slider-background-lower {
+            background-color: var(--moonview-primary, #7B61FF) !important;
+        }
+
+        .mdl-slider-background-upper {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .mdl-slider-background-flex {
+            background: rgba(255, 255, 255, 0.1) !important;
+            height: 6px !important;
+            border-radius: 3px;
+        }
+
+        /* Restyle the native Emby slider thumb */
+        input[is="emby-slider"] {
+            &::-webkit-slider-thumb {
+                width: 16px !important;
+                height: 16px !important;
+                background: var(--moonview-primary, #7B61FF) !important;
+                box-shadow: 0 0 10px rgba(123, 97, 255, 0.6) !important;
+            }
+
+            &:hover::-webkit-slider-thumb, 
+            &:focus::-webkit-slider-thumb {
+                transform: scale(1.3) !important;
+            }
+
+            &::-moz-range-thumb {
+                width: 16px !important;
+                height: 16px !important;
+                background: var(--moonview-primary, #7B61FF) !important;
+            }
+        }
+    }
+
+    .osdTimeText {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.9rem;
+        color: var(--moonview-text-secondary, #9BA6BC);
+    }
+
+    /* ----------------------------------------------------------------------
+       MENUS & DIALOGS (Audio, Subtitles, Quality)
+       ---------------------------------------------------------------------- */
+    .actionSheet, .dialog {
+        background-color: var(--moonview-surface, #121827) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        color: var(--moonview-text-primary, #F7F9FC);
+        font-family: 'Inter', sans-serif !important;
+
+        .actionSheetTitle {
+            color: var(--moonview-text-secondary, #9BA6BC);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .actionSheetMenuItem {
+            border-radius: 6px;
+            margin: 4px 8px;
+            transition: background 0.2s ease, color 0.2s ease;
+
+            &:hover, &:focus {
+                background: var(--moonview-surface-hover, #182033) !important;
+                color: var(--moonview-primary, #7B61FF) !important;
+                outline: none;
+            }
+            
+            &.selected {
+                color: var(--moonview-accent, #4DA3FF) !important;
+                font-weight: 600;
+            }
+        }
+    }
+
+    /* ----------------------------------------------------------------------
+       UP NEXT / NEXT EPISODE OVERLAY
+       ---------------------------------------------------------------------- */
+    .upNextContainer {
+        bottom: 120px !important;
+        right: 4% !important;
+        background: var(--moonview-surface, #121827) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        font-family: 'Inter', sans-serif !important;
+
+        .upNextTitle {
+            color: var(--moonview-text-secondary, #9BA6BC);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .upNextItemName {
+            color: var(--moonview-text-primary, #F7F9FC);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 8px 0;
+        }
+
+        button {
+            background: var(--moonview-primary, #7B61FF) !important;
+            color: #fff !important;
+            border-radius: 20px;
+            padding: 8px 24px;
+            font-weight: 600;
+            transition: background 0.2s ease;
+
+            &:hover, &:focus {
+                background: var(--moonview-primary-2, #9A6CFF) !important;
+            }
+        }
+    }
+
+    /* ----------------------------------------------------------------------
+       LOADING SPINNER
+       ---------------------------------------------------------------------- */
+    .mdl-spinner {
+        /* Recoloring native spinner */
+        .mdl-spinner__circle {
+            border-color: var(--moonview-primary, #7B61FF) !important;
+        }
+    }
+}

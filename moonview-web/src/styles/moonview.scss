@@ -286,6 +286,8 @@ body, html {
 /* Component Imports (To be handled by webpack, but we'll organize here if needed, 
    or they self-import in their respective JS modules) */
 
+@import './moonview-player.scss';
+
 body.moonview-viewer-mode .emby-tabs,
 body.moonview-viewer-mode .headerTabs,
 body.moonview-viewer-mode .skinHeader {

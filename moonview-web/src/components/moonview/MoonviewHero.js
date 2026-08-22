@@ -99,11 +99,31 @@ export class MoonviewHero {
         // Attach events
         const playBtn = this.heroElement.querySelector('[data-action="play"]');
         if (playBtn) {
-            playBtn.addEventListener('click', (e) => {
+            playBtn.addEventListener('click', async (e) => {
                 const itemId = e.currentTarget.getAttribute('data-itemid');
-                import('components/playback/playbackmanager').then((playbackManager) => {
-                    playbackManager.playbackManager.play({ ids: [itemId] });
-                });
+                
+                try {
+                    // Fetch full item first to get ServerId, complete MediaSources, etc.
+                    const fullItem = await this.apiClient.getItem(this.apiClient.getCurrentUserId(), itemId);
+                    
+                    import('components/playback/playbackmanager').then(({ playbackManager }) => {
+                        const resumePositionTicks = fullItem.UserData ? fullItem.UserData.PlaybackPositionTicks : 0;
+                        const options = {
+                            ids: [fullItem.Id],
+                            serverId: fullItem.ServerId
+                        };
+                        
+                        // For directly playable items with resume data, pass start position
+                        if (resumePositionTicks && !fullItem.IsFolder) {
+                            options.startPositionTicks = resumePositionTicks;
+                        }
+                        
+                        // Allow playbackManager to natively handle routing/playback for Series, Movies, etc.
+                        playbackManager.play(options);
+                    });
+                } catch (err) {
+                    console.error('Failed to start native playback for Hero item', err);
+                }
             });
         }
 

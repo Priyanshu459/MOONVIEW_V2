@@ -37,6 +37,7 @@ class MoonviewShellManager {
                          path.startsWith('/tv') || 
                          path.startsWith('/search') || 
                          path.startsWith('/details') ||
+                         path.startsWith('/mypreferencesmenu') ||
                          path.startsWith('/list');
 
         const skinHeader = document.querySelector('.skinHeader');
@@ -50,6 +51,7 @@ class MoonviewShellManager {
             if (headerTop) headerTop.classList.add('hide');
             document.body.classList.add('hideMainDrawer');
             document.body.classList.remove('moonview-viewer-mode');
+            document.body.classList.add('moonview-player-mode');
             return;
         }
 
@@ -60,6 +62,7 @@ class MoonviewShellManager {
             if (headerTop) headerTop.classList.add('hide');
             document.body.classList.add('hideMainDrawer');
             document.body.classList.add('moonview-viewer-mode');
+            document.body.classList.remove('moonview-player-mode');
             
             // Clean up old injection if someone re-rendered the header
             this.removeDuplicateNavs();
@@ -71,6 +74,7 @@ class MoonviewShellManager {
         if (headerTop) headerTop.classList.remove('hide');
         document.body.classList.remove('hideMainDrawer');
         document.body.classList.remove('moonview-viewer-mode');
+        document.body.classList.remove('moonview-player-mode');
     }
 
     removeDuplicateNavs() {
