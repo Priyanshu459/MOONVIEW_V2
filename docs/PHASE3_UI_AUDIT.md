@@ -1,0 +1,21 @@
+# Phase 3 UI Architecture Audit
+
+This audit outlines the core Jellyfin Web components responsible for the current UI/UX, defining their purpose and the proposed Moonview transformation strategy to achieve a cinematic, Netflix-like experience while avoiding heavy engine rewrites (Phase 3 Core Architecture Rule).
+
+| Component / Area | File(s) | Existing Purpose | Strategy | Regression Risk |
+| :--- | :--- | :--- | :--- | :--- |
+| **Application Shell / Header** | `src/components/AppHeader.tsx`<br>`src/scripts/libraryMenu.js` | Injects the top `.skinHeader` and side `.mainDrawer`. Contains hardcoded default logic for Jellyfin's layout (hamburgers, title, buttons). | **Wrap & Restyle**. We will hide the default drawer trigger and refactor `.skinHeader`'s CSS to act as a sleek, fixed/sticky transparent navigation bar. | **High** (Menu and search depend on this shell; breaking `libraryMenu.js` breaks global nav.) |
+| **Navigation / Menu** | `src/scripts/libraryMenu.js`<br>`src/components/ResponsiveDrawer.tsx` | Provides the slide-out hamburger menu with admin controls, libraries, and settings. | **Replace (for viewers)**. We will render a top horizontal nav (Home, Movies, Series, My List, Search) and hide the side drawer for non-admin viewers. | **High** |
+| **Home Page Controller** | `src/controllers/home.js`<br>`src/controllers/hometab.js` | Orchestrates the `tabbedview` and initializes `homeSections`. | **Reuse**. Provides the routing hook for the home page. | **Low** |
+| **Home Sections Orchestrator** | `src/components/homesections/` | Fetches user settings, queries the Jellyfin API, and dynamically injects rows (Resume, NextUp, LatestMedia). | **Wrap & Restyle**. We will intercept the HTML generation and wrap it with Moonview layout classes, converting them to horizontal scroll rows. | **Medium** (Core logic remains intact, presentation changes.) |
+| **Content Rows / Scrollers** | `src/elements/emby-itemscontainer/`<br>`src/elements/emby-scroller/` | Renders items in a wrapping grid or a horizontal scroller depending on layout. | **Restyle**. We will override `emby-scroller` CSS to create Netflix-style snapping horizontal rows with desktop arrow-hover controls. | **Low** |
+| **Content Cards** | `src/components/cardbuilder/` | Constructs the HTML for all posters, thumbnails, and item cards (title, progress bar, unplayed indicators). | **Restyle & Wrap**. Deeply override the CSS of `card` classes (e.g., `cardScalable`, `cardText`) to implement Moonview's 2:3 poster system, progress bars, and subtle hover scales. | **Medium** |
+| **Movie / Series Discovery** | `src/controllers/movies/`<br>`src/controllers/shows/` | Provides the library view (filters, sorting, grids). | **Reuse & Restyle**. Keep the powerful Jellyfin filtering logic but apply Moonview grid CSS. | **Low** |
+| **Details Pages** | `src/controllers/item/`<br>`src/controllers/itemDetails/` | Renders a movie or series overview, cast, and related items. | **Restyle**. Move the backdrop to a cinematic full-width hero header. Reorganize buttons (Play, Resume, My List). | **Medium** |
+| **Search UI** | `src/controllers/search/` | Handles the search input and results dropdown/page. | **Restyle**. Override the search overlay to act as a full-page or clean modal drop-down. | **Medium** |
+| **My List (Favorites)** | `src/controllers/favorites.js`<br>`src/components/favoriteitems.js` | Renders the user's favorited items. | **Reuse & Restyle**. Repurpose as "My List". Apply Moonview grids. | **Low** |
+| **Player / Playback** | `src/controllers/playback/` | Manages the video/audio player engine and UI. | **Reuse (Do Not Touch)**. Per Phase 3 requirements, playback engine and basic UI remain untouched until Phase 4. | **None** |
+| **Loading States** | `src/components/loading/` | Renders the default Jellyfin spinner. | **Replace (Partially)**. We will inject Moonview skeleton animations where appropriate. | **Low** |
+
+## Implementation Strategy Summary
+To avoid rewriting the engine, we will heavily rely on **CSS overrides (SCSS)** and **DOM manipulation hooks** (via existing controllers like `libraryMenu.js` or `homesections.js`). We will introduce Moonview design tokens in `src/themes/` and inject new structural HTML wrappers only where the existing DOM is too rigid (e.g., injecting the cinematic Hero on the Home page).

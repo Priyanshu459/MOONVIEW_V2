@@ -1,0 +1,17 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.11
+    container_name: jellyfin
+    user: root
+    environment:
+      - JELLYFIN_WEB_DIR=/moonview-web
+    ports:
+      - "8096:8096"
+    volumes:
+      - ../../runtime/jellyfin-config:/config
+      - ../../runtime/jellyfin-cache:/cache
+      - ../../runtime/jellyfin-transcodes:/config/transcodes
+      - ../../media-dev/movies:/media/movies
+      - ../../media-dev/series:/media/series
+      - ../../moonview-web/dist:/moonview-web:ro
+    restart: "unless-stopped"

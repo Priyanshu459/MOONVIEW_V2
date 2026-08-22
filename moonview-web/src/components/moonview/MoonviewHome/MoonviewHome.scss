@@ -1,0 +1,25 @@
+.moonview-home-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3rem;
+}
+
+.moonview-home-hero-section {
+    width: 100%;
+}
+
+.moonview-home-rails {
+    margin-top: -6rem; /* Overlap the hero vignette slightly */
+    z-index: 10;
+    position: relative;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+@media (max-width: 768px) {
+    .moonview-home-rails {
+        margin-top: -2rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

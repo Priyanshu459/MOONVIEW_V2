@@ -1,0 +1,77 @@
+.moonview-profile-menu {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    margin-top: 0;
+    background: var(--moonview-surface);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 200px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-in-out;
+}
+
+.moonview-profile-menu.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.moonview-profile-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.moonview-profile-menu li {
+    margin: 0;
+    padding: 0;
+}
+
+.moonview-profile-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--moonview-text-primary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.moonview-profile-menu-item:hover,
+.moonview-profile-menu-item:focus {
+    background: var(--moonview-surface-2);
+    color: #fff;
+    outline: none;
+}
+
+.moonview-profile-menu-item .material-icons {
+    margin-right: 12px;
+    font-size: 20px;
+    color: var(--moonview-text-secondary);
+    transition: color 0.2s ease;
+}
+
+.moonview-profile-menu-item:hover .material-icons,
+.moonview-profile-menu-item:focus .material-icons {
+    color: var(--moonview-primary);
+}
+
+.moonview-profile-menu-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 8px 0;
+}

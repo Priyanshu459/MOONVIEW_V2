@@ -1,0 +1,293 @@
+/* ==========================================================================
+   MOONVIEW DESIGN TOKENS
+   ========================================================================== */
+
+:root {
+    /* Colors - Original Moonview Theme */
+    --moonview-background: #070A12;
+    --moonview-background-soft: #0D1220;
+    --moonview-surface: #121827;
+    --moonview-surface-hover: #182033;
+    
+    --moonview-text-primary: #F7F9FC;
+    --moonview-text-secondary: #9BA6BC;
+    
+    --moonview-primary: #7B61FF;
+    --moonview-primary-2: #9A6CFF;
+    --moonview-accent: #4DA3FF;
+    --moonview-cyan: #4FE0D5;
+
+    --moonview-border: rgba(255,255,255,0.08);
+    --moonview-shadow: rgba(0,0,0,0.45);
+    
+    /* Typography */
+    --moonview-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    /* Spacing & Radii */
+    --moonview-radius-sm: 4px;
+    --moonview-radius-md: 8px;
+    --moonview-radius-lg: 12px;
+    
+    /* Transitions */
+    --moonview-transition-fast: 150ms ease-in-out;
+    --moonview-transition-normal: 250ms ease-in-out;
+    --moonview-transition-slow: 400ms ease-in-out;
+}
+
+/* ==========================================================================
+   GLOBAL OVERRIDES (Targeted)
+   ========================================================================== */
+body, html {
+    background-color: var(--moonview-background) !important;
+    color: var(--moonview-text-primary);
+    font-family: var(--moonview-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   STAGE F: ROW & CARD OVERRIDES (Wrapping upstream Jellyfin components)
+   ========================================================================== */
+
+/* MoonviewRow (Horizontal Scrolling Rows) */
+.homeSectionsContainer .itemsContainer.scrollSlider {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    gap: 1rem;
+    padding: 1rem 4%;
+    scrollbar-width: none; /* Firefox */
+}
+
+.homeSectionsContainer .itemsContainer.scrollSlider::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+/* Snap alignment for cards in scroll rows */
+.homeSectionsContainer .itemsContainer.scrollSlider .card {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+}
+
+/* MoonviewPosterCard (Card Overrides) */
+.card {
+    transition: transform var(--moonview-transition-fast), filter var(--moonview-transition-fast);
+}
+
+.card:hover {
+    transform: scale(1.04);
+    z-index: 10;
+}
+
+.cardBox {
+    border-radius: var(--moonview-radius-md);
+    overflow: hidden;
+    background: var(--moonview-surface);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Enforce 2:3 aspect ratio for portraits/posters */
+.card-df .cardImageContainer.portrait {
+    aspect-ratio: 2 / 3;
+    padding-bottom: 0 !important;
+    height: auto;
+}
+
+/* Text & Title visibility */
+.cardText {
+    color: var(--moonview-text-primary);
+    font-weight: 500;
+}
+
+.cardText-secondary {
+    color: var(--moonview-text-secondary);
+    font-size: 0.9em;
+}
+
+/* Progress bar inside cards */
+.itemProgressBar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.itemProgressBarForeground {
+    background: var(--moonview-accent);
+}
+
+
+/* ==========================================================================
+   STAGE H & J: MOVIES, SERIES & MY LIST GRIDS
+   ========================================================================== */
+
+.libraryPage .itemsContainer.vertical-wrap,
+.favoritesPage .itemsContainer.vertical-wrap {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 4%;
+    justify-content: start;
+}
+
+@media (max-width: 768px) {
+    .libraryPage .itemsContainer.vertical-wrap,
+    .favoritesPage .itemsContainer.vertical-wrap {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+    }
+}
+
+.libraryPage .itemsContainer.vertical-wrap .card,
+.favoritesPage .itemsContainer.vertical-wrap .card {
+    width: 100% !important;
+    margin: 0 !important;
+    flex: none;
+}
+
+/* ==========================================================================
+   STAGE I: SEARCH
+   ========================================================================== */
+
+.searchPage {
+    background-color: var(--moonview-background);
+}
+
+.searchPage .searchHeader {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.searchPage .searchInput {
+    font-size: 2rem !important;
+    color: var(--moonview-text-primary) !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* ==========================================================================
+   STAGE K: DETAILS PAGE (Cinematic Hero)
+   ========================================================================== */
+
+.itemDetailPage {
+    background-color: var(--moonview-background);
+}
+
+.itemBackdrop {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 85vh;
+    background-size: cover;
+    background-position: center 20%;
+    z-index: 0;
+    opacity: 1 !important;
+    filter: brightness(0.6);
+    mask-image: linear-gradient(to top, transparent 0%, black 50%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 50%);
+}
+
+.detailPageWrapperContainer {
+    position: relative;
+    z-index: 10;
+    margin-top: 25vh; /* Push content down into the backdrop */
+}
+
+.detailPagePrimaryContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5%;
+}
+
+.detailImageContainer, .detailLogo {
+    display: none !important; /* Hide default poster in cinematic view, we rely on backdrop and title */
+}
+
+.detailRibbon {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.nameContainer h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.itemMiscInfo {
+    font-size: 1.2rem;
+    color: var(--moonview-text-secondary);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.mainDetailButtons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.mainDetailButtons .btnPlay,
+.mainDetailButtons .btnResume {
+    background-color: var(--moonview-text-primary) !important;
+    color: var(--moonview-background) !important;
+    border-radius: var(--moonview-radius-md) !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: bold;
+}
+
+.mainDetailButtons .btnPlay:hover,
+.mainDetailButtons .btnResume:hover {
+    background-color: rgba(255,255,255,0.8) !important;
+}
+
+.mainDetailButtons .btnPlay .material-icons,
+.mainDetailButtons .btnResume .material-icons {
+    color: var(--moonview-background) !important;
+}
+
+.detailPagePrimaryContent {
+    max-width: 800px; /* Readable text width */
+    font-size: 1.15rem;
+    line-height: 1.6;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
+.detailPageSecondaryContainer {
+    padding: 2rem 5%;
+    margin-top: 4rem;
+}
+
+/* Make sure child/season carousels snap horizontally */
+.detailPageSecondaryContainer .itemsContainer.scrollSlider {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+.detailPageSecondaryContainer .itemsContainer.scrollSlider .card {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+}
+
+/* Component Imports (To be handled by webpack, but we'll organize here if needed, 
+   or they self-import in their respective JS modules) */
+
+body.moonview-viewer-mode .emby-tabs,
+body.moonview-viewer-mode .headerTabs,
+body.moonview-viewer-mode .skinHeader {
+    display: none !important;
+}
