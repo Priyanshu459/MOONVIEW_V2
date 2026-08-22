@@ -1,0 +1,21 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.11
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8096:8096"
+    volumes:
+      - /opt/moonview/jellyfin/config:/config
+      - /opt/moonview/jellyfin/cache:/cache
+      - /opt/moonview/jellyfin/transcodes:/config/transcodes
+      - /mnt/moonview-media:/media:ro
+      - /opt/moonview/web:/moonview-web-root:ro
+    environment:
+      - JELLYFIN_WEB_DIR=/moonview-web-root/current
+      - TZ=${TZ:-UTC}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

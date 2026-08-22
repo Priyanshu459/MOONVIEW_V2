@@ -15,12 +15,12 @@ interface ListsProps {
 }
 
 const Lists: FC<ListsProps> = ({ items = [], listOptions = {} }) => {
-    const groupedData = groupBy(items, (item) => {
+    const groupedData: Record<string, ItemDto[]> = groupBy(items, (item: ItemDto) => {
         if (listOptions.showIndex) {
-            return getIndex(item, listOptions);
+            return getIndex(item, listOptions) as string;
         }
         return '';
-    });
+    }) as any;
 
     const renderListItem = (item: ItemDto, index: number) => {
         return (

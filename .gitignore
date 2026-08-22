@@ -8,3 +8,13 @@ media-dev/*
 !.env.example
 
 *.log
+
+# Build artifacts — never commit
+moonview-web/dist/
+moonview-web-build/
+moonview-web-dist-*.tar.gz
+moonview-web/package.json.tmp
+
+# Node modules
+node_modules/
+moonview-web/node_modules/
